@@ -10,6 +10,13 @@ var pngquant = require('imagemin-pngquant');
 var oss = require('gulp-alioss');
 const del = require('del');
 var jsHint = require('gulp-jshint');
+var RevAll = require('gulp-rev-all');
+var replace = require('gulp-replace');
+
+/**
+ * CDN URL perfix
+ */
+var cdnPrefix = 'http://demo.cdnsite.cn/';
 
 /**
  * Paths config
@@ -17,7 +24,6 @@ var jsHint = require('gulp-jshint');
 var paths = {
   src: {
     index: 'src/',
-    src: 'src/',
     html: 'src/html/',
     js: 'src/js/',
     css: 'src/css/',
@@ -25,17 +31,18 @@ var paths = {
   },
   dist: {
     index: 'dist/',
-    dist: 'dist/',
     html: 'dist/html/',
     js: 'dist/js/',
     css: 'dist/css/',
     images: 'dist/images/'
+  },
+  cdn: {
+    index: 'cdn/'
   }
 };
 
 /**
  * Aliyun OSS config
- * @type {Object}
  */
 var ossOptions = {
   accessKeyId: '******',
@@ -68,7 +75,7 @@ gulp.task('build', ['clean:dist', 'htmlmin', 'cssmin', 'uglify', 'imagesmin'], f
 /**
  * Upload to Aliyun OSS
  */
-gulp.task('release', ['upload']);
+gulp.task('release', ['revision', 'replaceVersionRef', 'upload']);
 
 function browserSyncTask(path) {
   browserSync({
@@ -83,14 +90,14 @@ function browserSyncTask(path) {
 }
 
 gulp.task('htmlmin', function() {
-  gulp.src(paths.src.src + '*.html')
+  gulp.src(paths.src.index + '*.html')
     .pipe(htmlmin({
       collapseWhitespace: true,
       removeScriptTypeAttributes: true,
       minifyJS: true,
       minifyCss: true
     }))
-    .pipe(gulp.dest(paths.dist.dist));
+    .pipe(gulp.dest(paths.dist.index));
   gulp.src(paths.src.html + '**')
     .pipe(htmlmin({
       collapseWhitespace: true,
@@ -135,9 +142,36 @@ gulp.task('imagesmin', function() {
 });
 
 gulp.task('clean:dist', function () {
-  del.sync(['./dist/**']);
+  del.sync([paths.dist.index + '**']);
+});
+
+gulp.task('clean:cdn', function () {
+  del.sync([paths.cdn.index + '**']);
+});
+
+gulp.task('revision', function() {
+  var revAll = new RevAll({
+    transformPath: function(rev, source) {
+      if (/lib\//.test(rev)) {
+        return cdnPrefix + source.replace(/\.\//, '');
+      }
+      return rev.replace(/^\.\//, cdnPrefix);
+    },
+    dontRenameFile: [/lib\//g]
+    // ,
+    // dontUpdateReference: [/lib\//g]
+  });
+  return gulp.src(paths.dist.index + '**')
+    .pipe(revAll.revision())
+    .pipe(gulp.dest('cdn/'));
+});
+
+gulp.task('replaceVersionRef', function() {
+  return gulp.src('cdn/*.html')
+    .pipe(replace(/index\.([\d\w]{8,12})\.html/, '$1'))
+    .pipe(gulp.dest('cdn'));
 });
 
 gulp.task('upload', function(){
-  return gulp.src([paths.dist.dist + '**']).pipe(oss(ossOptions));
+  return gulp.src([paths.cdn.index + '**']).pipe(oss(ossOptions));
 });
