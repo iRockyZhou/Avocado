@@ -18,17 +18,22 @@ If your computer is not over the wall, please install [CNPM](http://npm.taobao.o
  
 ## Structure
 
-|-- src  
-&emsp;&emsp;|-- index.html  
-&emsp;&emsp;|-- css  
-&emsp;&emsp;|-- js  
-&emsp;&emsp;&emsp;&emsp;|-- lib  
-|-- dist  
-&emsp;&emsp;|-- index.html  
-&emsp;&emsp;|-- css  
-&emsp;&emsp;|-- js  
-&emsp;&emsp;&emsp;&emsp;|-- lib  
-|-- node_modules  
+|-- src/  
+&emsp;&emsp;|-- index.ce5e9aa6.html  
+&emsp;&emsp;|-- css/  
+&emsp;&emsp;|-- js/  
+&emsp;&emsp;&emsp;&emsp;|-- lib/  
+|-- dist/  
+&emsp;&emsp;|-- index.ce5e9aa6.html  
+&emsp;&emsp;|-- css/  
+&emsp;&emsp;|-- js/  
+&emsp;&emsp;&emsp;&emsp;|-- lib/  
+|-- cdn/  
+&emsp;&emsp;|-- index.ce5e9aa6.html  
+&emsp;&emsp;|-- css/  
+&emsp;&emsp;|-- js/  
+&emsp;&emsp;&emsp;&emsp;|-- lib/  
+|-- node_modules/  
 ...
 
 ## Config
@@ -73,5 +78,5 @@ Just develop
 Build to dist  
 `gulp build`
 
-Upload to Aliyun OSS  
-`gulp upload`
+Release your project  
+`gulp release`

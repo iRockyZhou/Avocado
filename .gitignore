@@ -17,5 +17,7 @@ bower_components
 *.psd
 
 # For Project
+example-src
 src
 dist
+cdn
