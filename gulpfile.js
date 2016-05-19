@@ -12,6 +12,8 @@ const del = require('del');
 var jsHint = require('gulp-jshint');
 var RevAll = require('gulp-rev-all');
 var replace = require('gulp-replace');
+var concat = require('gulp-concat');
+var autoprefixer = require('gulp-autoprefixer');
 
 /**
  * CDN URL perfix
@@ -110,6 +112,11 @@ gulp.task('htmlmin', function() {
 
 gulp.task('cssmin', function() {
   return gulp.src(paths.src.css + '**')
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions', 'Android >= 4.0'],
+      cascade: true,
+      remove:true
+    }))
     .pipe(cleanCSS({
       compatibility: 'ie6'
     }))
@@ -167,9 +174,15 @@ gulp.task('revision', function() {
 });
 
 gulp.task('replaceVersionRef', function() {
-  return gulp.src('cdn/*.html')
+  return gulp.src(paths.cdn.index + '*.html')
     .pipe(replace(/index\.([\d\w]{8,12})\.html/, '$1'))
-    .pipe(gulp.dest('cdn'));
+    .pipe(gulp.dest(paths.cdn.index));
+});
+
+gulp.task('concat', function () {
+  return gulp.src(paths.src.js + '*.js')
+  .pipe(concat('all.js'))
+  .pipe(gulp.dest(paths.dist.js));
 });
 
 gulp.task('upload', function(){
