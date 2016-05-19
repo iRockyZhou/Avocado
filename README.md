@@ -6,6 +6,13 @@
  - Node.js
  - bash
 
+## Feature
+ - Compress your code & images, save your traffic.
+ - Detection of your code, to more secure deployment.
+ - Better use of CDN, and painless solution to the browser cache problem.
+ - Real time preview of your code, the more cool development experience.
+ - One key to deploy your code to Aliyun, you can use the saved time to chasing a girl friend.
+
 ## Installation
 
 Install package with NPM and add it to your development dependencies:
@@ -19,17 +26,20 @@ If your computer is not over the wall, please install [CNPM](http://npm.taobao.o
 ## Structure
 
 |-- src/  
-&emsp;&emsp;|-- index.ce5e9aa6.html  
+&emsp;&emsp;|-- index.html  
+&emsp;&emsp;|-- html/  
 &emsp;&emsp;|-- css/  
 &emsp;&emsp;|-- js/  
 &emsp;&emsp;&emsp;&emsp;|-- lib/  
 |-- dist/  
-&emsp;&emsp;|-- index.ce5e9aa6.html  
+&emsp;&emsp;|-- index.html  
+&emsp;&emsp;|-- html/  
 &emsp;&emsp;|-- css/  
 &emsp;&emsp;|-- js/  
 &emsp;&emsp;&emsp;&emsp;|-- lib/  
 |-- cdn/  
 &emsp;&emsp;|-- index.ce5e9aa6.html  
+&emsp;&emsp;|-- html/  
 &emsp;&emsp;|-- css/  
 &emsp;&emsp;|-- js/  
 &emsp;&emsp;&emsp;&emsp;|-- lib/  
